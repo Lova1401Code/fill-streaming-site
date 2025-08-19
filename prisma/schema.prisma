@@ -312,12 +312,12 @@ model Series {
 
 model StreamingSite {
   id Int @id @default(autoincrement())
-  network String
-  year Int
-  name String
-  runtime String
+  network String?
+  year Int?
+  name String?
+  runtime String?
 
-   movieId   Int? 
+  movieId   Int? 
   serieId   String?
 
   movie     Movie? @relation(fields: [movieId], references: [id])
