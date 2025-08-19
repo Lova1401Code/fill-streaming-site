@@ -1,5 +1,8 @@
+import getBatch from "../utils/getBatch.js";
+
 async function main() {
-  console.log("script work");
+  const batch = getBatch();
+  console.log(batch);
 }
 
 main().catch((error) => {
