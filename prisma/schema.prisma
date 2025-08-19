@@ -1,0 +1,1370 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MovieImage {
+  id      String @id @default(cuid())
+  movieId Int
+  imageId String
+  image   Image  @relation(fields: [imageId], references: [id])
+  movie   Movie  @relation(fields: [movieId], references: [id])
+
+  @@unique([movieId, imageId])
+}
+
+model Movie {
+  id                     Int                @id @default(autoincrement())
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime
+  tmdbId                 Int                @unique
+  imdbId                 String             @unique
+  wikidataId             String?
+  facebookId             String?
+  instagramId            String?
+  twitterId              String?
+  netflixId              String?
+  huluId                 String?
+  amazonId               String?
+  appleTVId              String?
+  twitterUsername        String?
+  googleKGId             String?
+  traktTVId              String?
+  redditTopicId          String?
+  letterboxdId           String?
+  metacriticId           String?
+  allMovieId             String?
+  disneyPlusId           String?
+  hboMaxId               String?
+  title                  String             @db.VarChar(1024)
+  originalTitle          String?            @db.VarChar(1024)
+  language               String?
+  releaseYear            Int?
+  releaseDate            String?
+  genres                 String[]
+  plot                   String?
+  runtime                Int
+  adult                  Boolean            @default(false)
+  budget                 String?
+  revenue                String?
+  homepage               String?            @db.VarChar(1024)
+  status                 String
+  mpaaRating             String?
+  keywords               String[]           @default([])
+  countriesOfOrigin      String[]           @default([])
+  languages              String[]           @default([])
+  cast                   MovieCast[]
+  director               String?
+  production             String?
+  awardsSummary          String?
+  posterUrl              String?            @db.VarChar(512)
+  posterPlaceholderUrl   String?            @db.VarChar(4096)
+  posterWidth            Int?
+  posterHeight           Int?
+  backdropUrl            String?            @db.VarChar(512)
+  backdropPlaceholderUrl String?            @db.VarChar(4096)
+  backdropWidth          Int?
+  backdropHeight         Int?
+  trailerUrl             String?            @db.VarChar(512)
+  trailerYouTubeId       String?
+  imdbRating             Float?
+  imdbVotes              Int?
+  imdbType               String?
+  tmdbPopularity         Float?
+  tmdbRating             Float?
+  tmdbVotes              Int?
+  metacriticRating       Float?
+  metacriticVotes        Int?
+  rtCriticRating         Int?
+  rtCriticVotes          Int?
+  rtAudienceRating       Int?
+  rtAudienceVotes        Int?
+  rtCriticsConsensus     String?
+  rtId                   String?
+  emsId                  String?
+  rtUrl                  String?
+  letterboxdScore        Int?
+  letterboxdVotes        Int?
+  flickMetrixScore       Int?
+  flickMetrixId          Int?
+  foreign                Boolean?           @default(false)
+  relevancyScore         Float?
+  imdbCustomPopularity   Float?
+  searchL                String?            @db.VarChar(2048)
+  bunnyUploadDate          DateTime?
+  allMovies_poster_jpg_300 String?
+  allMovies_poster_jpg_400 String?
+  allMovies_poster_webp_100  String?
+  allMovies_poster_webp_150 String?
+  allMovies_poster_webp_200 String?
+  allMovies_height_image_jpg_300 Int?
+  allMovies_height_image_jpg_400 Int?
+  allMovies_height_image_webp_100 Int?
+  allMovies_height_image_webp_150 Int?
+  allMovies_height_image_webp_200 Int?
+       
+  allImages              MovieImage[]
+  movieSummaries         MovieSummary[]
+  movieSynopsis          MovieSynopsis?
+  source   String?
+  mainServerUpload        DateTime?    
+  downloaded             Boolean            @default(false)
+  cdnFolderName String?
+  languagesDownloaded    LanguageSequence[] @relation("MovieLanguagesDownloaded", map: "MovieLanguageSequence")
+  subtitlesAvailable     LanguageSequence[] @relation("MovieSubtitlesAvailable", map: "MovieSubtitleSequence")
+ 
+
+  WatchHistory WatchHistory[] @relation(map: "watch_history_movie")
+  myListItems MyListItem[] @relation("MovieMyList")
+  Activity Activity[]
+  likes Like[]
+
+  movieAudios MovieAudio[]
+  movieSubtitles MovieSubtitle[]
+
+  @@index([imdbId])
+  @@index([imdbRating, releaseYear, foreign, genres, searchL, relevancyScore])
+  @@index([imdbVotes])
+  @@index([releaseDate])
+  @@index([rtAudienceRating])
+  @@index([rtCriticRating])
+  @@index([tmdbId])
+  @@index([tmdbPopularity])
+}
+
+model MovieCast {
+  movieId  Int
+  personId String
+
+  movie    Movie   @relation(fields: [movieId], references: [id])
+  person   Person  @relation(fields: [personId], references: [id])
+
+  @@id([movieId, personId])
+}
+
+model SeriesOptimised {
+  id                  String     @id @default(cuid())
+  detailsLang         String
+  mainSourceId        String?    @unique
+  name                String
+  worldWideName       String
+  titleYear           Int
+  plot                String
+  mainType            String
+  posterImageId       String?
+  ageCategoryTitle    String
+  imdbId              String?    @unique
+  bunnyUploadDate     DateTime?
+  awards              Json
+  awardsSummary       Json
+  casts               Json
+  crew                Json
+  goofs               Json
+  allImages           Json
+  countriesOfOrigin   Json
+  otherNames          Json
+  productionCompanies Json
+  quotes              Json
+  allRates            Json
+  mainRate            Json
+  allReleaseDates     Json
+  runtime             Json
+  serieSummaries      Json
+  serieSynopsis       Json
+  dates               Json
+  genres              Json
+  keywords            Json
+  languages           Json
+  taglines            Json
+  source              String?
+  mainServerUpload    DateTime? 
+  cdnFolderName       String?
+  posterImage         Json
+  allSources          Json
+
+  tmdbId                 Int?
+}
+model SerieOptimised {
+  id                  String     @id @default(cuid())
+  detailsLang         String
+  name                String
+  worldWideName       String
+  titleYear           Int
+  mainRateValue       Float?
+  plot                String
+  mainType            String
+  ageCategoryTitle    String
+  imdbId              String?    @unique
+  bunnyUploadDate     DateTime?
+  cdnFolderName       String?
+  source              String?
+  mainServerUpload    DateTime?
+  mainSourceId        String?    @unique
+  posterImageId       String?
+  
+  awards              Json?  
+  awardsSummary       Json?  
+  casts               Json?  
+  crew                Json?  
+  goofs               Json?  
+  allImages           Json?  
+  countriesOfOrigin   Json?  
+  otherNames          Json?  
+  productionCompanies Json?  
+  quotes              Json?  
+  allRates            Json?  
+  mainRate            Json?     
+  allReleaseDates     Json?   
+  runtime             Json?   
+  serieSummaries      Json?   
+  serieSynopsis       Json?     
+  dates               Json?   
+  genres              Json?   
+  keywords            Json?   
+  languages           Json?   
+  taglines            Json?   
+  posterImage         Json?   
+  allSources          Json?
+  allMovies_poster_jpg_300 String?
+  allMovies_poster_jpg_400 String?
+  allMovies_poster_webp_100  String?
+  allMovies_poster_webp_150 String?
+  allMovies_poster_webp_200 String?
+  allMovies_height_image_jpg_300 Int?
+  allMovies_height_image_jpg_400 Int?
+  allMovies_height_image_webp_100 Int?
+  allMovies_height_image_webp_150 Int?
+  allMovies_height_image_webp_200 Int?
+
+  WatchHistory WatchHistory[] @relation(map: "watch_history_serie")
+
+  myListItems MyListItem[] @relation("SeriesMyList")
+
+  Activity Activity[]
+  likes Like[]
+
+  tmdbId                 Int?
+}
+
+model Series {
+  id                  String              @id @default(cuid())
+  detailsLang         String
+  mainSourceId        String?             @unique
+  name                String
+  worldWideName       String
+  titleYear           Int
+  plot                String
+  mainType            String
+  posterImageId       String?
+  ageCategoryTitle    String
+  imdbId              String?             @unique
+  bunnyUploadDate       DateTime?
+  awards              Award[]
+  awardsSummary       AwardsSummary?
+  boxOffice           BoxOffice?
+  casts               Cast[]
+  crew                Crew[]
+  episodes            EpisodeOfSerie[]
+  goofs               Goof[]
+  allImages           Image[]             @relation("AllImages")
+  countriesOfOrigin   OriginCountry[]
+  otherNames          OtherName[]
+  productionCompanies ProductionCompany[]
+  quotes              Quote[]
+  allRates            Rate[]              @relation("AllRates")
+  mainRate            Rate?
+  allReleaseDates     ReleaseDate[]
+  runtime             Runtime?
+  serieSummaries      SerieSummary[]
+  serieSynopsis       SerieSynopsis?
+  mainSource          Source?             @relation("MainSource", fields: [mainSourceId], references: [id])
+  posterImage         Image?              @relation("PosterImage", fields: [posterImageId], references: [id])
+  dates               SeriesDates?
+  genres              SeriesGenre[]
+  keywords            SeriesKeyword[]
+  languages           SeriesLanguage[]
+  taglines            Tagline[]
+  allSources          Source[]            @relation("AllSources")
+  downloaded          Boolean             @default(false)
+  source              String?
+  mainServerUpload        DateTime? 
+  cdnFolderName String?
+  allMovies_poster_jpg_300 String?
+  allMovies_poster_jpg_400 String?
+  allMovies_poster_webp_100  String?
+  allMovies_poster_webp_150 String?
+  allMovies_poster_webp_200 String?
+  allMovies_height_image_jpg_300 Int?
+  allMovies_height_image_jpg_400 Int?
+  allMovies_height_image_webp_100 Int?
+  allMovies_height_image_webp_150 Int?
+  allMovies_height_image_webp_200 Int?
+  languagesDownloaded LanguageSequence[]  @relation("SeriesLanguagesDownloaded", map: "SeriesLanguageSequence")
+  subtitlesAvailable  LanguageSequence[]  @relation("SeriesSubtitlesAvailable", map: "SeriesSubtitleSequence")
+
+  tmdbId                 Int?
+}
+
+model BoxOffice {
+  id            String                  @id @default(cuid())
+  seriesId      String                  @unique
+  budget        BigInt
+  worldwide     BigInt
+  series        Series                  @relation(fields: [seriesId], references: [id])
+  mainCountries BoxOfficeMainCountries?
+  opening       BoxOfficeOpening?
+}
+
+model BoxOfficeMainCountries {
+  id          String                 @id @default(cuid())
+  boxOfficeId String                 @unique
+  amount      BigInt
+  boxOffice   BoxOffice              @relation(fields: [boxOfficeId], references: [id])
+  countries   BoxOfficeMainCountry[]
+}
+
+model BoxOfficeMainCountry {
+  id                       String                 @id @default(cuid())
+  boxOfficeMainCountriesId String
+  countryId                String
+  boxOfficeMainCountries   BoxOfficeMainCountries @relation(fields: [boxOfficeMainCountriesId], references: [id])
+  country                  Country                @relation(fields: [countryId], references: [id])
+}
+
+model BoxOfficeOpening {
+  id          String                    @id @default(cuid())
+  boxOfficeId String                    @unique
+  amount      BigInt
+  date        String
+  boxOffice   BoxOffice                 @relation(fields: [boxOfficeId], references: [id])
+  countries   BoxOfficeOpeningCountry[]
+}
+
+model BoxOfficeOpeningCountry {
+  id                 String           @id @default(cuid())
+  boxOfficeOpeningId String
+  countryId          String
+  boxOfficeOpening   BoxOfficeOpening @relation(fields: [boxOfficeOpeningId], references: [id])
+  country            Country          @relation(fields: [countryId], references: [id])
+}
+
+model Runtime {
+  id       String @id @default(cuid())
+  seconds  Int
+  title    String
+  seriesId String @unique
+  series   Series @relation(fields: [seriesId], references: [id])
+}
+
+model SeriesDates {
+  id             String  @id @default(cuid())
+  seriesId       String  @unique
+  startCountryId String
+  startDate      String
+  titleYear      Int
+  endYear        Int?
+  isEnded        Boolean @default(false)
+  startYear      Int
+  series         Series  @relation(fields: [seriesId], references: [id])
+  startCountry   Country @relation(fields: [startCountryId], references: [id])
+}
+
+model Source {
+  id                String   @id @default(cuid())
+  sourceId          String   @unique
+  sourceType        String
+  sourceUrl         String
+  persons           Person[]
+  seriesMainSources Series?  @relation("MainSource")
+  seriesAllSources  Series[] @relation("AllSources")
+}
+
+model OtherName {
+  id       String @id @default(cuid())
+  name     String
+  seriesId String
+  series   Series @relation(fields: [seriesId], references: [id])
+}
+
+model Tagline {
+  id       String @id @default(cuid())
+  text     String
+  seriesId String
+  series   Series @relation(fields: [seriesId], references: [id])
+}
+
+model Quote {
+  id        String      @id @default(cuid())
+  isSpoiler Boolean     @default(false)
+  seriesId  String
+  series    Series      @relation(fields: [seriesId], references: [id])
+  lines     QuoteLine[]
+}
+
+model QuoteLine {
+  id             String      @id @default(cuid())
+  quoteId        String
+  line           String?
+  stageDirection String?
+  characters     Character[]
+  quote          Quote       @relation(fields: [quoteId], references: [id])
+}
+
+model Character {
+  id       String    @id @default(cuid())
+  lineId   String
+  name     String
+  playerId String
+  line     QuoteLine @relation(fields: [lineId], references: [id])
+  player   Person    @relation(fields: [playerId], references: [id])
+}
+
+model SeriesKeyword {
+  id        String  @id @default(cuid())
+  keywordId String
+  seriesId  String
+  keyword   Keyword @relation(fields: [keywordId], references: [id])
+  series    Series  @relation(fields: [seriesId], references: [id])
+}
+
+model Keyword {
+  id            String          @id @default(cuid())
+  text          String          @unique
+  seriesKeyword SeriesKeyword[]
+}
+
+model OriginCountry {
+  id        String  @id @default(cuid())
+  seriesId  String
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id])
+  series    Series  @relation(fields: [seriesId], references: [id])
+}
+
+model Country {
+  id                      String                    @id @default(cuid())
+  name                    String                    @unique
+  boxOfficeMainCountry    BoxOfficeMainCountry[]
+  boxOfficeOpeningCountry BoxOfficeOpeningCountry[]
+  originCountry           OriginCountry[]
+  releaseDates            ReleaseDate[]
+  seriesDates             SeriesDates[]
+}
+
+model SeriesLanguage {
+  id         String   @id @default(cuid())
+  languageId String
+  seriesId   String?
+  language   Language @relation(fields: [languageId], references: [id])
+  series     Series?  @relation(fields: [seriesId], references: [id])
+}
+
+model Language {
+  id             String           @id @default(cuid())
+  name           String           @unique
+  seriesLanguage SeriesLanguage[]
+}
+
+model ReleaseDate {
+  id        String  @id @default(cuid())
+  countryId String
+  date      String
+  seriesId  String
+  country   Country @relation(fields: [countryId], references: [id])
+  series    Series  @relation(fields: [seriesId], references: [id])
+}
+
+model ProductionCompany {
+  id        String  @id @default(cuid())
+  companyId String
+  extraInfo String
+  seriesId  String
+  company   Company @relation(fields: [companyId], references: [id])
+  series    Series  @relation(fields: [seriesId], references: [id])
+}
+
+model Company {
+  id                  String              @id @default(cuid())
+  name                String              @unique
+  productionCompanies ProductionCompany[]
+}
+
+model SeriesGenre {
+  id       String @id @default(cuid())
+  genreId  String
+  seriesId String
+  genre    Genre  @relation(fields: [genreId], references: [id])
+  series   Series @relation(fields: [seriesId], references: [id])
+}
+
+model Genre {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  seriesGenre SeriesGenre[]
+}
+
+model Person {
+  id         String          @id @default(cuid())
+  imdbId     String          @unique
+  name       String
+  sourceId   String?
+  extraInfo  String?
+  castOf     MovieCast[]
+  casts      Cast[] // Ajout de la relation inverse pour Cast
+  characters Character[]
+  crewOf     Crew[]
+  source     Source?         @relation(fields: [sourceId], references: [id])
+  onImages   PersonOnImage[]
+}
+
+model Crew {
+  id       String @id @default(cuid())
+  seriesId String
+  personId String
+  role     Role
+  person   Person @relation(fields: [personId], references: [id])
+  series   Series @relation(fields: [seriesId], references: [id])
+}
+
+model Rate {
+  id               String  @id @default(cuid())
+  rate             Float
+  rateSource       String
+  votesCount       Int
+  seriesId         String? @unique
+  allRatesSeriesId String?
+  allRatesSeries   Series? @relation("AllRates", fields: [allRatesSeriesId], references: [id])
+  series           Series? @relation(fields: [seriesId], references: [id])
+}
+
+model Cast {
+  id             String          @id @default(cuid())
+  name           String
+  personId       String?
+  extraInfo      String
+  seriesId       String
+  person         Person?         @relation(fields: [personId], references: [id])
+  series         Series          @relation(fields: [seriesId], references: [id])
+  otherNames     CastOtherName[]
+  episodeCredits EpisodeCredits?
+}
+
+model EpisodeCredits {
+  id            String @id @default(cuid())
+  startYear     Int
+  endYear       Int
+  totalEpisodes Int
+  castId        String @unique
+  cast          Cast   @relation(fields: [castId], references: [id])
+}
+
+model CastOtherName {
+  id     String @id @default(cuid())
+  name   String
+  castId String
+  cast   Cast   @relation(fields: [castId], references: [id])
+}
+
+model Award {
+  id         String @id @default(cuid())
+  mainEvent  String
+  eventYear  Int
+  subEvent   String
+  awardTitle String
+  outcome    String
+  details    String
+  seriesId   String
+  series     Series @relation(fields: [seriesId], references: [id])
+}
+
+model AwardsSummary {
+  id               String @id @default(cuid())
+  eventName        String
+  awardName        String
+  totalNominations Int
+  wins             Int
+  seriesId         String @unique
+  series           Series @relation(fields: [seriesId], references: [id])
+}
+
+model Goof {
+  id        String  @id @default(cuid())
+  details   String
+  groupName String
+  isSpoiler Boolean @default(false)
+  seriesId  String
+  series    Series  @relation(fields: [seriesId], references: [id])
+}
+
+model Image {
+  id                String          @id @default(cuid())
+  isThumbnail       Boolean         @default(false)
+  sourceType        String
+  title             String
+  type              String
+  url               String          @unique
+  width             Float?
+  height            Float?
+  seriesId          String?
+  episodeImage      EpisodeImage[]
+  series            Series?         @relation("AllImages", fields: [seriesId], references: [id])
+  movieImage        MovieImage[]
+  names             PersonOnImage[]
+  seriesPosterImage Series[]        @relation("PosterImage")
+}
+
+model PersonOnImage {
+  id       String @id @default(cuid())
+  imageId  String
+  personId String
+  image    Image  @relation(fields: [imageId], references: [id])
+  person   Person @relation(fields: [personId], references: [id])
+}
+
+model MovieSummary {
+  id        String  @id @default(cuid())
+  summaryId String
+  movieId   Int
+  movie     Movie   @relation(fields: [movieId], references: [id])
+  summary   Summary @relation(fields: [summaryId], references: [id])
+
+  @@unique([movieId, summaryId])
+}
+
+model MovieSynopsis {
+  id         String   @id @default(cuid())
+  synopsisId String
+  movieId    Int      @unique
+  movie      Movie    @relation(fields: [movieId], references: [id])
+  synopsis   Synopsis @relation(fields: [synopsisId], references: [id])
+}
+
+model SerieSummary {
+  id        String  @id @default(cuid())
+  summaryId String
+  seriesId  String
+  series    Series  @relation(fields: [seriesId], references: [id])
+  summary   Summary @relation(fields: [summaryId], references: [id])
+
+  @@unique([seriesId, summaryId])
+}
+
+model SerieSynopsis {
+  id         String   @id @default(cuid())
+  synopsisId String
+  seriesId   String   @unique
+  series     Series   @relation(fields: [seriesId], references: [id])
+  synopsis   Synopsis @relation(fields: [synopsisId], references: [id])
+}
+
+model Summary {
+  id              String         @id @default(cuid())
+  author          String         @default("")
+  text            String
+  moviesSummaries MovieSummary[]
+  seriesSummaries SerieSummary[]
+}
+
+model Synopsis {
+  id             String          @id @default(cuid())
+  text           String
+  moviesSynopsis MovieSynopsis[]
+  seriesSynopsis SerieSynopsis[]
+}
+
+model Episode {
+  id                  String             @id @default(cuid())
+  imdbId              String             @unique
+  detailsLang         String
+  name                String
+  worldWideName       String
+  titleYear           Int
+  plot                String?
+  mainType            String
+  ageCategoryTitle    String
+  imdbRating          Float?
+  imdbVotes           Int?
+  runtimeSeconds      Int?
+  runtimeTitle        String?
+  startDate           String
+  startCountry        String
+  isEnded             Boolean            @default(false)
+  endYear             Int?
+  startYear           Int
+  bunnyUploadDate     DateTime?
+  genres              String[]
+  keywords            String[]           @default([])
+  countriesOfOrigin   String[]           @default([])
+  languages           String[]           @default([])
+  directors           String[]           @default([])
+  writers             String[]           @default([])
+  producers           String[]           @default([])
+  casts               String[]           @default([])
+  downloaded          Boolean            @default(false)
+  source              String?
+  mainServerUpload    DateTime? 
+  cdnFolderName String?                     
+  languagesDownloaded LanguageSequence[] @relation("EpisodeLanguagesDownloaded", map: "EpisodeLanguageSequence")
+  subtitlesAvailable  LanguageSequence[] @relation("EpisodeSubtitlesAvailable", map: "EpisodeSubtitleSequence")
+
+  allImages      EpisodeImage[]
+  episodeOfSerie EpisodeOfSerie?
+  watchHistory        WatchHistory[]
+
+  Activity Activity[]
+  likes Like[]
+
+  myListItems MyListItem[] @relation("EpisodeMyList")
+
+  episodeAudios EpisodeAudio[]
+  episodeSubtitles EpisodeSubtitle[]
+}
+
+model EpisodeImage {
+  id        String  @id @default(cuid())
+  episodeId String
+  imageId   String
+  episode   Episode @relation(fields: [episodeId], references: [id])
+  image     Image   @relation(fields: [imageId], references: [id])
+
+  @@unique([episodeId, imageId])
+}
+
+model EpisodeOfSerie {
+  id            String  @id @default(cuid())
+  episodeId     String  @unique
+  seriesId      String
+  episodeNumber Int
+  seasonNumber  Int
+  titleText     String
+  episode       Episode @relation(fields: [episodeId], references: [id])
+  series        Series  @relation(fields: [seriesId], references: [id])
+}
+
+model Video {
+  id              String @id @default(cuid())
+  imdbId          String
+  videoImdbId     String @unique
+  contentTypeName String
+  contentTypeId   String
+  name            String
+  runtime         Int
+  thumbnailUrl    String
+  thumbnailWidth  Int
+  thumbnailHeight Int
+}
+
+enum Role {
+  DIRECTOR
+  WRITER
+  PRODUCER
+  CAST
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  contact_info    String  @unique
+  password String
+  username String?
+  phone    String?
+
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Customer {
+  id Int @id @default(autoincrement())
+  name String 
+  contact_info String
+  contact_detail String @unique
+  password String
+
+  subscriptions Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Subscription {
+  id                 String             @id @default(cuid())
+  userId             Int
+  customerId         Int
+  status             SubscriptionStatus @default(PENDING)
+  startDate          DateTime
+  endDate            DateTime
+  autoRenew          Boolean            @default(true)
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  canceledAt         DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  customer     Customer                  @relation(fields: [customerId], references: [id])
+  user     User                  @relation(fields: [userId], references: [id])
+  payments Payment[]
+  features SubscriptionFeature[]
+
+  @@index([userId])
+  @@index([customerId])
+  @@index([status])
+}
+
+model SubscriptionPlan {
+  id                String        @id @default(cuid())
+  name              String
+  description       String?
+  price             Decimal       @db.Decimal(10, 2)
+  interval          PlanInterval
+  planCode          String?        @unique
+  simultaneousUsers Int?           
+  features          PlanFeature[]
+  active            Boolean       @default(true)
+  stripeProductId   String?       @unique
+  stripePriceId     String?       @unique
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  Subscriptions Subscriptions[]
+}
+
+
+model SubscriptionFeature {
+  id             String  @id @default(cuid())
+  subscriptionId String
+  featureId      String
+  value          String?
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  feature      PlanFeature  @relation(fields: [featureId], references: [id])
+}
+
+model PlanFeature {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  planId      String
+  plan        SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  subscriptionFeatures SubscriptionFeature[]
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  subscriptionId  String
+  amount          Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+  status          PaymentStatus
+  paymentMethod   PaymentMethod
+  paymentIntentId String?
+  refundedAmount  Decimal?      @db.Decimal(10, 2)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+enum PlanInterval {
+  MONTHLY
+  TWO_monthly
+  THREE_monthly
+  SIX_monthly
+  YEARLY
+}
+
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PAYPAL
+  BANK_TRANSFER
+  STRIPE
+}
+
+model LanguageSequence {
+  id             Int    @id @default(autoincrement())
+  code           String @unique
+  netflixName    String
+  translatedName String
+  imdbMovieId    String
+  subtitleFormat String
+  displayName    String
+
+  moviesDownloaded   Movie[]   @relation("MovieLanguagesDownloaded")
+  moviesSubtitles    Movie[]   @relation("MovieSubtitlesAvailable")
+  episodesDownloaded Episode[] @relation("EpisodeLanguagesDownloaded")
+  episodesSubtitles  Episode[] @relation("EpisodeSubtitlesAvailable")
+  seriesDownloaded   Series[]  @relation("SeriesLanguagesDownloaded")
+  seriesSubtitles    Series[]  @relation("SeriesSubtitlesAvailable")
+}
+model SourceMovie {
+  id          Int      @id @default(autoincrement())
+  domainName  String   @unique @map("domain_name")
+  name        String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("source_movies")
+}
+model SourceSerie {
+  id          Int      @id @default(autoincrement())
+  domainName  String   @unique @map("domain_name")
+  name        String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("source_series")
+}
+model Customers {
+    id                  String    @id @default(uuid())
+  email               String    @unique
+  password            String
+  phone               String?   @unique
+  emailVerified       Boolean   @default(false)
+  phoneVerified       Boolean   @default(false)
+  phoneVerifiedAt     DateTime?
+  phoneVerificationAttempts Int     @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  stripeCustomerId    String?
+  refreshToken        String?  
+  subscription        Subscriptions?
+  invoices            Invoice[]
+  payments            Payments[]
+  profiles            Profile[]
+  devices             Device[]
+  securitySettings    SecuritySettings?
+  notificationSettings NotificationSettings?
+
+  // Password reset fields
+  resetPasswordToken  String?
+  resetPasswordExpires DateTime?
+
+  backupContactName   String? // ex: whatsapp, instagram
+  backupContactValue  String? // valeur du contact de secours
+
+  PaymentsMethod PaymentsMethod[]
+  ProfileDeviceHistory ProfileDeviceHistory[]
+
+  Download Download[]
+}
+model Subscriptions {
+  id                  String    @id @default(uuid())
+  customer            Customers  @relation(fields: [customerId], references: [id])
+  customerId          String    @unique
+  stripeSubscriptionId String?   @unique
+  status             SubscriptionStatus @default(PENDING)
+  trialEndsAt        DateTime?          
+  currentPeriodStart DateTime?
+  pauseUntil         DateTime?
+  currentPeriodEnd   DateTime?
+  autoRenew          Boolean   @default(true)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  invoices           Invoice[]
+  canceledAt          DateTime?
+  planId             String?
+  planRelation       SubscriptionPlan?  @relation(fields: [planId], references: [id])
+}
+model Payments {
+  id          String   @id @default(uuid())
+  stripePaymentIntentId String  // ID du paiement Stripe
+  customer    Customers @relation(fields: [customerId], references: [id])
+  customerId  String
+  amount      Float
+  currency    String   @default("USD")
+  status      PaymentStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+}
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  SUSPENDED
+  CANCELED
+  EXPIRED
+  PENDING
+  TRIALING
+}
+enum PlanType {
+  BASIC
+  STANDARD
+  PREMIUM
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  name        String
+  email       String?
+  icon        String
+  gameHandle  String?
+  isChild     Boolean  @default(false)
+  maturityRating String @default("ALL")
+  isLocked    Boolean  @default(false)
+  language    String   @default("en")
+  displayLanguage String? // Langue d'affichage de l'interface (ex: "French", "English", etc.)
+  preferredContentLanguage String? // Langue préférée pour les films et séries (ex: "French", "English", etc.)
+  customer    Customers @relation(fields: [customerId], references: [id])
+  customerId  String
+  activities  Activity[]
+  pinCode String?
+  autoplayNextEpisode Boolean @default(true)
+  autoplayPreviews     Boolean @default(true)
+  profileType String @default("standard")
+  isPrimaryProfile Boolean @default(false)
+  isDeleted  Boolean @default(false)
+  Device Device[]
+  transferredFromId String?
+  isTransferred Boolean @default(false)
+  transferredAt DateTime?
+  playbackSettings    PlaybackSettings?
+  subtitleSettings    SubtitleSettings?
+
+  // Gestion du transfert
+  transferHistory     ProfileTransfer[]
+  transferredProfiles ProfileTransfer[] @relation("TransferredProfiles")
+
+  // Contenu
+  watchHistory        WatchHistory[]
+  recommendations     Json?
+  myList              MyList?
+
+  streamingQuality    String? @default("auto")
+  testParticipation   Json?
+  notificationPrefs   Json?
+
+  notifyWhatYouWatch          Boolean   @default(false)
+  notifyWatchRecommendations  Boolean   @default(false)
+  notifyMembershipOffers      Boolean   @default(false)
+  notifyAccountUpdates        Boolean   @default(false)
+  notifyNewSeasonsEpisodes    Boolean   @default(false)
+  notifyGames                 Boolean   @default(false)
+  notifyKidsReport            Boolean   @default(false)
+
+  ProfileDeviceHistory ProfileDeviceHistory[]
+
+  Download Download[]
+  likes Like[]
+}
+
+
+model WatchHistory {
+  id String @id @default(uuid())
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String
+  contentId String
+  contentType String // "movie", "serie", "episode"
+  progress Float
+  rating Int?
+  deviceInfo String?
+  country String?
+  lastWatched DateTime @default(now())
+  // Référence aux modèles de contenu - champs optionnels selon le type
+  movie Movie? @relation(fields: [movieId], references: [id], map: "watch_history_movie")
+  movieId Int? // Nullable - seulement pour les films
+  serie SerieOptimised? @relation(fields: [serieId], references: [id], map: "watch_history_serie")
+  serieId String? // Nullable - seulement pour les séries
+  episode Episode? @relation(fields: [episodeId], references: [id], map: "watch_history_episode")
+  episodeId String? // Nullable - seulement pour les épisodes
+}
+
+model MyList {
+  id          String        @id @default(uuid())
+  profile     Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId   String        @unique
+  items       MyListItem[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model MyListItem {
+  id          String        @id @default(uuid())
+  myList      MyList        @relation(fields: [myListId], references: [id], onDelete: Cascade)
+  myListId    String
+  movie       Movie?        @relation("MovieMyList", fields: [movieId], references: [id])
+  movieId     Int?
+  series      SerieOptimised? @relation("SeriesMyList", fields: [seriesId], references: [id])
+  seriesId    String?
+  episode     Episode?      @relation("EpisodeMyList", fields: [episodeId], references: [id])
+  episodeId   String?
+  addedAt     DateTime      @default(now())
+
+  @@unique([myListId, movieId])
+  @@unique([myListId, seriesId])
+  @@unique([myListId, episodeId])
+  @@index([myListId])
+}
+
+model PaymentsMethod {
+  id                  String     @id @default(uuid())
+  customer            Customers   @relation(fields: [customerId], references: [id])
+  customerId          String
+  stripePaymentMethodId String   @unique
+  isDefault           Boolean    @default(false)
+  type                String     // "card"
+  cardBrand           String?
+  cardLast4           String?
+  createdAt           DateTime   @default(now())
+}
+
+model Invoice {
+  id          String   @id @default(uuid())
+  amount      Float
+  description String
+  date        DateTime @default(now())
+  customer    Customers @relation(fields: [customerId], references: [id])
+  customerId  String
+  plan        PlanType
+  periodStart DateTime
+  periodEnd   DateTime
+
+  Subscriptions Subscriptions[]
+}
+
+model Device {
+  id          String   @id @default(uuid())
+  deviceId    String   @unique
+  name        String
+  type        String   // 'mobile', 'web', 'tv',
+  os          String
+  userAgent   String
+  pushToken   String?
+  pushEnabled  Boolean    @default(false)
+  lastLogin    DateTime   @default(now())
+  lastActivity DateTime   @default(now())
+  isCurrent    Boolean    @default(false)
+  profile     Profile? @relation(fields: [profileId], references: [id])
+  profileId   String?
+  customer    Customers @relation(fields: [customerId], references: [id])
+  customerId  String
+  downloads   Download[]
+
+  notifyWhatYouWatch          Boolean   @default(false)
+  notifyWatchRecommendations  Boolean   @default(false)
+  notifyMembershipOffers      Boolean   @default(false)
+  notifyAccountUpdates        Boolean   @default(false)
+  notifyNewSeasonsEpisodes    Boolean   @default(false)
+  notifyGames                 Boolean   @default(false)
+  notifyAppTips               Boolean   @default(false)
+  notifyKidsReport            Boolean   @default(false)
+
+  ProfileDeviceHistory ProfileDeviceHistory[]
+}
+
+model ProfileTransfer {
+  id                  String     @id @default(uuid())
+  fromProfile         Profile    @relation(fields: [fromProfileId], references: [id], name: "TransferredProfiles")
+  fromProfileId       String
+  toProfile           Profile    @relation(fields: [toProfileId], references: [id])
+  toProfileId         String
+  transferredAt       DateTime   @default(now())
+  status              TransferStatus @default(COMPLETED)
+  transferredData     Json       // Historique, préférences, etc.
+  
+  @@map("profile_transfers")
+}
+
+enum TransferStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  PARTIAL
+}
+
+
+model Download {
+  id          String   @id @default(uuid())
+  contentId   String
+  title       String
+  type        String   // 'movie' or 'series'
+  season      Int?
+  episode     Int?
+  quality     String   // 'low' | 'medium' | 'high'
+  downloadDate DateTime @default(now())
+  expiresAt   DateTime // Date d'expiration du contenu
+
+  device      Device   @relation(fields: [deviceId], references: [deviceId])
+  deviceId    String
+
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  profileId   String
+
+  customer    Customers @relation(fields: [customerId], references: [id])
+  customerId  String
+}
+
+model ProfileDeviceHistory {
+  id         String   @id @default(uuid())
+  deviceId   String
+  profileId  String
+  customerId String
+  connectedAt DateTime @default(now())
+
+  customer   Customers @relation(fields: [customerId], references: [id])
+  device     Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  profile    Profile  @relation(fields: [profileId], references: [id])
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  title       String
+  date        DateTime @default(now())
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  profileId   String
+  contentType ContentType
+
+  serieId   String?
+  serie     SerieOptimised? @relation(fields: [serieId], references: [id])
+
+  episodeId String?
+  episode   Episode? @relation(fields: [episodeId], references: [id])
+
+  movieId   Int?
+  movie     Movie? @relation(fields: [movieId], references: [id])
+}
+
+enum ContentType {
+  MOVIE
+  EPISODE
+  SERIE
+}
+
+model SecuritySettings {
+  id              String   @id @default(uuid())
+  twoFactorAuth   Boolean  @default(false)
+  profileTransfer Boolean  @default(true)
+  personalInfoAccess Boolean @default(true)
+  featureTesting  Boolean  @default(false)
+  customer        Customers @relation(fields: [customerId], references: [id])
+  customerId      String @unique
+}
+
+model NotificationSettings {
+  id                String   @id @default(uuid())
+  emailNotifications Boolean  @default(true)
+  pushNotifications  Boolean  @default(true)
+  justForYou         Json     @default("{}")
+  discoverMore       Json     @default("{}")
+  yourAccount        Json     @default("{}")
+  customer           Customers @relation(fields: [customerId], references: [id])
+  customerId         String @unique
+}
+
+model PlaybackSettings {
+  id                  String   @id @default(uuid())
+  autoplayNextEpisode Boolean  @default(true)
+  autoplayPreviews    Boolean  @default(true)
+  dataUsage           String   @default("AUTO")
+  preferredAudio      String?  // Langue audio préférée (ex: "French", "English", etc.)
+  profile            Profile @relation(fields: [profileId], references: [id])
+  profileId          String @unique
+}
+
+model SubtitleSettings {
+  id          String   @id @default(uuid())
+  font        String   @default("Arial")
+  textSize    String   @default("Medium")
+  shadow      String   @default("None")
+  background  String   @default("None")
+  window      String   @default("None")
+  preferredSubtitle String?  // Langue sous-titre préférée (ex: "French", "English", etc.)
+  profile    Profile @relation(fields: [profileId], references: [id])
+  profileId  String @unique
+}
+
+model Like {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  profileId  String
+  movieId    Int?
+  serieOptimisedId String?
+  episodeId  String?
+  value      Int      @default(0) // -1 = dislike, 0 = none, 1 = like, 2 = love this
+  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  movie      Movie?   @relation(fields: [movieId], references: [id])
+  serie      SerieOptimised? @relation(fields: [serieOptimisedId], references: [id])
+  episode    Episode? @relation(fields: [episodeId], references: [id])
+
+  @@unique([profileId, movieId])
+  @@unique([profileId, serieOptimisedId])
+  @@unique([profileId, episodeId])
+}
+
+// === Ajout pour gestion des audios et sous-titres ===
+model Audio {
+  id         Int    @id @default(autoincrement())
+  folderName String @unique
+  movies     MovieAudio[]
+  episodes   EpisodeAudio[]
+}
+
+model Subtitle {
+  id         Int    @id @default(autoincrement())
+  folderName String @unique
+  movies     MovieSubtitle[]
+  episodes   EpisodeSubtitle[]
+}
+
+model MovieAudio {
+  movieId Int
+  audioId Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+  audio   Audio @relation(fields: [audioId], references: [id])
+  @@id([movieId, audioId])
+}
+
+model MovieSubtitle {
+  movieId Int
+  subtitleId Int
+  movie     Movie @relation(fields: [movieId], references: [id])
+  subtitle  Subtitle @relation(fields: [subtitleId], references: [id])
+  @@id([movieId, subtitleId])
+}
+
+model EpisodeAudio {
+  episodeId String
+  audioId Int
+  episode Episode @relation(fields: [episodeId], references: [id])
+  audio   Audio @relation(fields: [audioId], references: [id])
+  @@id([episodeId, audioId])
+}
+
+model EpisodeSubtitle {
+  episodeId String
+  subtitleId Int
+  episode Episode @relation(fields: [episodeId], references: [id])
+  subtitle Subtitle @relation(fields: [subtitleId], references: [id])
+  @@id([episodeId, subtitleId])
+}
+
+// === Nouveau modèle pour les langues extraites des dossiers ===
+model LanguageFolder {
+  id          Int      @id @default(autoincrement())
+  languageName String  @unique
+  type        LanguageType
+  originalFolderName String
+  audioIdsMovie   Int[]
+  subtitleIdsMovie   Int[]
+  audioIdsEpisode   Int[]
+  subtitleIdsEpisode   Int[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([languageName])
+  @@index([type])
+}
+
+enum LanguageType {
+  AUDIO
+  SUBTITLE
+}
