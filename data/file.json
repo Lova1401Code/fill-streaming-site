@@ -126,6 +126,13 @@
       "country": "UK"
     },
     {
+      "name_film": "The Boys",
+      "network": ["Netflix"],
+      "runtime": 45,
+      "year": 2019,
+      "country": "USA"
+    },
+    {
       "name_film": "Westworld",
       "network": ["HBO Max"],
       "runtime": 64,

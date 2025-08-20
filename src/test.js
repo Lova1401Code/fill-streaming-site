@@ -11,7 +11,7 @@ async function testConnection() {
         
         // Test de recherche d'un film
         console.log("\n🔍 Test de recherche d'un film...");
-        const movieResult = await searchInDatabase("Inception", 2010, 148);
+        const movieResult = await searchInDatabase("Interstellar", 2014, 169);
         if (movieResult) {
             console.log("✅ Recherche de film réussie:", movieResult);
         } else {
