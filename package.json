@@ -4,8 +4,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node src/index.js"
+    "test": "node src/test.js",
+    "test:batch": "node src/testBatch.js",
+    "seed": "node src/index.js",
+    "cleanup": "node src/cleanup.js",
+    "verify": "node src/verify.js"
   },
   "keywords": [],
   "author": "",

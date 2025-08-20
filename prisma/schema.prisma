@@ -313,15 +313,14 @@ model Series {
 model StreamingSite {
   id Int @id @default(autoincrement())
   network String?
-  year Int?
-  name String?
-  runtime String?
-
+  country String?
   movieId   Int? 
   serieId   String?
 
   movie     Movie? @relation(fields: [movieId], references: [id])
   serie     Series? @relation(fields: [serieId], references: [id])
+
+  @@unique([network, country, movieId, serieId])
 }
 
 model BoxOffice {
