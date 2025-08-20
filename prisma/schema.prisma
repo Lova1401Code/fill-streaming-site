@@ -246,6 +246,7 @@ model SerieOptimised {
 
   Activity Activity[]
   likes Like[]
+  streamingSites StreamingSite[]
 
   tmdbId                 Int?
 }
@@ -316,11 +317,13 @@ model StreamingSite {
   country String?
   movieId   Int? 
   serieId   String?
+  serieOptimisedId String?
 
   movie     Movie? @relation(fields: [movieId], references: [id])
   serie     Series? @relation(fields: [serieId], references: [id])
+  serieOptimised SerieOptimised? @relation(fields: [serieOptimisedId], references: [id])
 
-  @@unique([network, country, movieId, serieId])
+  // Pas de contrainte unique pour permettre les doubles relations
 }
 
 model BoxOffice {

@@ -1,34 +1,24 @@
 export const CONFIG = {
-    // Configuration de la base de données
     DATABASE: {
-        // Ces valeurs peuvent être surchargées par les variables d'environnement
-        URL: process.env.DATABASE_URL || "postgresql://username:password@localhost:5432/your_database_name",
-        TIMEOUT: 30000, // 30 secondes
-        MAX_CONNECTIONS: 10
+        MAX_CONNECTIONS: 10,
+        CONNECTION_TIMEOUT: 30000,
+        IDLE_TIMEOUT: 10000
     },
-    
-    // Configuration du traitement par lots
     PROCESSING: {
-        BATCH_SIZE: 5, // Taille de chaque lot
-        DELAY_BETWEEN_BATCHES: 200, // millisecondes entre les lots
+        BATCH_SIZE: 3, // Réduit de 5 à 3 pour moins de connexions
+        DELAY_BETWEEN_BATCHES: 500, // Augmenté de 200ms à 500ms
         MAX_RETRIES: 3,
         RETRY_DELAY: 1000, // millisecondes
-        PARALLEL_PROCESSING: true // Traitement en parallèle dans chaque lot
+        PARALLEL_PROCESSING: false // Désactivé pour éviter les connexions multiples
     },
-    
-    // Configuration des logs
     LOGGING: {
-        LEVEL: process.env.LOG_LEVEL || 'INFO', // DEBUG, INFO, WARN, ERROR
+        LEVEL: 'info',
         SHOW_TIMESTAMPS: true,
-        SHOW_PROGRESS: true,
-        SHOW_BATCH_PROGRESS: true // Afficher le progrès par lot
+        SHOW_PROGRESS: true
     },
-    
-    // Configuration de validation
     VALIDATION: {
-        STRICT_MODE: false, // Si true, arrête le traitement en cas d'erreur
-        SKIP_INVALID_ITEMS: true,
-        LOG_VALIDATION_ERRORS: true
+        STRICT_MODE: false,
+        SKIP_INVALID_ITEMS: true
     }
 };
 

@@ -13,7 +13,7 @@ export default async function searchInDatabase(originalTitle, year, runtime) {
                 imdbId: true,
             },
         });
-        const serie = await prisma.series.findFirst({
+        const serie = await prisma.serieOptimised.findFirst({
             where: {
                 name: originalTitle, // Utilise 'name' au lieu de 'originalTitle' pour les séries
                 titleYear: parseInt(year),

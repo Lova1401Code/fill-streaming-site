@@ -1,7 +1,8 @@
 [
     {
-      "name_film": "Inception",
-      "network": ["Netflix", "Amazon Prime"],
+      "title": "Inception",
+      "originalTitle": "Inception",
+      "networks": ["Netflix", "Amazon Prime"],
       "runtime": 148,
       "year": 2010,
       "country": "USA"

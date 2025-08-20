@@ -133,33 +133,31 @@ async function processStreamingData(item, resumeManager) {
 async function processBatch(batch, batchNumber, totalBatches, resumeManager) {
     console.log(`\n🚀 --- Traitement du lot ${batchNumber}/${totalBatches} (${batch.length} éléments) ---`);
 
-    // Traitement en parallèle avec Promise.allSettled
-    const promises = batch.map(item => processStreamingData(item, resumeManager));
-    const results = await Promise.allSettled(promises);
-
+    // Traitement séquentiel pour éviter les connexions multiples
     let batchSuccessCount = 0;
     let batchSkippedCount = 0;
     let batchErrorCount = 0;
 
-    // Analyse des résultats
-    results.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
-            const { success, skipped, item, successCount, errorCount } = result.value;
-            if (success) {
+    for (let i = 0; i < batch.length; i++) {
+        const item = batch[i];
+        try {
+            const result = await processStreamingData(item, resumeManager);
+            
+            if (result.success) {
                 batchSuccessCount++;
-                console.log(`✅ ${item}: Traité avec succès (${successCount} entrées créées)`);
-            } else if (skipped) {
+                console.log(`✅ ${result.item}: Traité avec succès (${result.successCount} entrées créées)`);
+            } else if (result.skipped) {
                 batchSkippedCount++;
-                console.log(`⚠️ ${item}: Ignoré (aucune correspondance trouvée)`);
+                console.log(`⚠️ ${result.item}: Ignoré (aucune correspondance trouvée)`);
             } else {
                 batchErrorCount++;
-                console.log(`❌ ${item}: Erreur lors du traitement`);
+                console.log(`❌ ${result.item}: Erreur lors du traitement`);
             }
-        } else {
+        } catch (error) {
             batchErrorCount++;
-            console.log(`❌ Élément ${index + 1}: Erreur fatale - ${result.reason.message}`);
+            console.log(`❌ Élément ${i + 1}: Erreur fatale - ${error.message}`);
         }
-    });
+    }
 
     console.log(`📊 Résumé du lot ${batchNumber}/${totalBatches}: ${batchSuccessCount} succès, ${batchSkippedCount} ignorés, ${batchErrorCount} erreurs`);
 
@@ -186,7 +184,7 @@ async function main() {
         const totalBatches = Math.ceil(totalCount / batchSize);
 
         console.log(`📊 ${totalCount} éléments à traiter en ${totalBatches} lots de ${batchSize}`);
-        console.log(`⚡ Traitement en parallèle: ${CONFIG.PROCESSING.PARALLEL_PROCESSING ? 'Activé' : 'Désactivé'}`);
+        console.log(`⚡ Traitement en parallèle: ${CONFIG.PROCESSING.PARALLEL_PROCESSING ? 'Activé' : 'Désactivé (traitement séquentiel)'}`);
 
         let currentIndex = resumeManager.state.currentIndex;
         let batchNumber = Math.floor(currentIndex / batchSize) + 1;
