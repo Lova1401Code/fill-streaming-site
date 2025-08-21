@@ -32,12 +32,12 @@ export function logError(error, context = '') {
 export function validateStreamingItem(item) {
     const errors = [];
     
-    if (!item.name_film) {
-        errors.push('Champ "name_film" manquant');
+    if (!item.title) {
+        errors.push('Champ "title" manquant');
     }
     
-    if (!item.network) {
-        errors.push('Champ "network" manquant');
+    if (!item.networks || !Array.isArray(item.networks) || item.networks.length === 0) {
+        errors.push('Champ "networks" manquant ou invalide');
     }
     
     if (!item.year) {
@@ -61,8 +61,8 @@ export function validateStreamingItem(item) {
 
 export function sanitizeStreamingItem(item) {
     return {
-        name_film: String(item.name_film || '').trim(),
-        network: Array.isArray(item.network) ? item.network : [item.network],
+        title: String(item.title || '').trim(),
+        networks: Array.isArray(item.networks) ? item.networks : [item.networks],
         runtime: parseInt(item.runtime) || 0,
         year: parseInt(item.year) || 0,
         country: String(item.country || '').trim()

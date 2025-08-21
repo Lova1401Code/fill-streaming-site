@@ -1,151 +1,170 @@
 [
-    {
-      "title": "Inception",
-      "originalTitle": "Inception",
-      "networks": ["Netflix", "Amazon Prime"],
-      "runtime": 148,
-      "year": 2010,
-      "country": "USA"
-    },
-    {
-      "name_film": "The Dark Knight",
-      "network": ["HBO Max", "Disney+"],
-      "runtime": 152,
-      "year": 2008,
-      "country": "USA"
-    },
-    {
-      "name_film": "Interstellar",
-      "network": ["Netflix", "Hulu"],
-      "runtime": 169,
-      "year": 2014,
-      "country": "USA"
-    },
-    {
-      "name_film": "Parasite",
-      "network": ["HBO Max"],
-      "runtime": 132,
-      "year": 2019,
-      "country": "South Korea"
-    },
-    {
-      "name_film": "Avengers: Endgame",
-      "network": ["Disney+"],
-      "runtime": 181,
-      "year": 2019,
-      "country": "USA"
-    },
-    {
-      "name_film": "The Matrix",
-      "network": ["Netflix", "HBO Max"],
-      "runtime": 136,
-      "year": 1999,
-      "country": "USA"
-    },
-    {
-      "name_film": "Gladiator",
-      "network": ["Amazon Prime"],
-      "runtime": 155,
-      "year": 2000,
-      "country": "USA"
-    },
-    {
-      "name_film": "Joker",
-      "network": ["HBO Max", "Netflix"],
-      "runtime": 122,
-      "year": 2019,
-      "country": "USA"
-    },
-    {
-      "name_film": "Titanic",
-      "network": ["Disney+"],
-      "runtime": 195,
-      "year": 1997,
-      "country": "USA"
-    },
-    {
-      "name_film": "The Godfather",
-      "network": ["Amazon Prime", "HBO Max"],
-      "runtime": 175,
-      "year": 1972,
-      "country": "USA"
-    },
-    {
-      "name_film": "Stranger Things",
-      "network": ["Netflix"],
-      "runtime": 50,
-      "year": 2016,
-      "country": "USA"
-    },
-    {
-      "name_film": "The Witcher",
-      "network": ["Netflix"],
-      "runtime": 60,
-      "year": 2019,
-      "country": "Poland/USA"
-    },
-    {
-      "name_film": "Breaking Bad",
-      "network": ["AMC", "Netflix"],
-      "runtime": 47,
-      "year": 2008,
-      "country": "USA"
-    },
-    {
-      "name_film": "Game of Thrones",
-      "network": ["HBO Max"],
-      "runtime": 57,
-      "year": 2011,
-      "country": "USA/UK"
-    },
-    {
-      "name_film": "The Mandalorian",
-      "network": ["Disney+"],
-      "runtime": 40,
-      "year": 2019,
-      "country": "USA"
-    },
-    {
-      "name_film": "Sherlock",
-      "network": ["BBC", "Netflix"],
-      "runtime": 90,
-      "year": 2010,
-      "country": "UK"
-    },
-    {
-      "name_film": "Friends",
-      "network": ["HBO Max", "Netflix"],
-      "runtime": 22,
-      "year": 1994,
-      "country": "USA"
-    },
-    {
-      "name_film": "The Crown",
-      "network": ["Netflix"],
-      "runtime": 58,
-      "year": 2016,
-      "country": "UK"
-    },
-    {
-      "name_film": "The Boys",
-      "network": ["Netflix"],
-      "runtime": 45,
-      "year": 2019,
-      "country": "USA"
-    },
-    {
-      "name_film": "Westworld",
-      "network": ["HBO Max"],
-      "runtime": 64,
-      "year": 2016,
-      "country": "USA"
-    },
-    {
-      "name_film": "House of Cards",
-      "network": ["Netflix"],
-      "runtime": 50,
-      "year": 2013,
-      "country": "USA"
-    }
-  ]
-  
+  {
+    "title": "Inception",
+    "originalTitle": "Inception",
+    "networks": ["Netflix", "Amazon Prime"],
+    "runtime": 148,
+    "year": 2010,
+    "country": "USA"
+  },
+  {
+    "title": "The Dark Knight",
+    "originalTitle": "The Dark Knight",
+    "networks": ["HBO Max", "Disney+"],
+    "runtime": 152,
+    "year": 2008,
+    "country": "USA"
+  },
+  {
+    "title": "Interstellar",
+    "originalTitle": "Interstellar",
+    "networks": ["Netflix", "Hulu"],
+    "runtime": 169,
+    "year": 2014,
+    "country": "USA"
+  },
+  {
+    "title": "Parasite",
+    "originalTitle": "Gisaengchung",
+    "networks": ["HBO Max"],
+    "runtime": 132,
+    "year": 2019,
+    "country": "South Korea"
+  },
+  {
+    "title": "Avengers: Endgame",
+    "originalTitle": "Avengers: Endgame",
+    "networks": ["Disney+"],
+    "runtime": 181,
+    "year": 2019,
+    "country": "USA"
+  },
+  {
+    "title": "The Matrix",
+    "originalTitle": "The Matrix",
+    "networks": ["Netflix", "HBO Max"],
+    "runtime": 136,
+    "year": 1999,
+    "country": "USA"
+  },
+  {
+    "title": "Gladiator",
+    "originalTitle": "Gladiator",
+    "networks": ["Amazon Prime"],
+    "runtime": 155,
+    "year": 2000,
+    "country": "USA"
+  },
+  {
+    "title": "Joker",
+    "originalTitle": "Joker",
+    "networks": ["HBO Max", "Netflix"],
+    "runtime": 122,
+    "year": 2019,
+    "country": "USA"
+  },
+  {
+    "title": "Titanic",
+    "originalTitle": "Titanic",
+    "networks": ["Disney+"],
+    "runtime": 195,
+    "year": 1997,
+    "country": "USA"
+  },
+  {
+    "title": "The Godfather",
+    "originalTitle": "The Godfather",
+    "networks": ["Amazon Prime", "HBO Max"],
+    "runtime": 175,
+    "year": 1972,
+    "country": "USA"
+  },
+  {
+    "title": "Stranger Things",
+    "originalTitle": "Stranger Things",
+    "networks": ["Netflix"],
+    "runtime": 50,
+    "year": 2016,
+    "country": "USA"
+  },
+  {
+    "title": "The Witcher",
+    "originalTitle": "The Witcher",
+    "networks": ["Netflix"],
+    "runtime": 60,
+    "year": 2019,
+    "country": "Poland/USA"
+  },
+  {
+    "title": "Breaking Bad",
+    "originalTitle": "Breaking Bad",
+    "networks": ["AMC", "Netflix"],
+    "runtime": 47,
+    "year": 2008,
+    "country": "USA"
+  },
+  {
+    "title": "Game of Thrones",
+    "originalTitle": "Game of Thrones",
+    "networks": ["HBO Max"],
+    "runtime": 57,
+    "year": 2011,
+    "country": "USA/UK"
+  },
+  {
+    "title": "The Mandalorian",
+    "originalTitle": "The Mandalorian",
+    "networks": ["Disney+"],
+    "runtime": 40,
+    "year": 2019,
+    "country": "USA"
+  },
+  {
+    "title": "Sherlock",
+    "originalTitle": "Sherlock",
+    "networks": ["BBC", "Netflix"],
+    "runtime": 90,
+    "year": 2010,
+    "country": "UK"
+  },
+  {
+    "title": "Friends",
+    "originalTitle": "Friends",
+    "networks": ["HBO Max", "Netflix"],
+    "runtime": 22,
+    "year": 1994,
+    "country": "USA"
+  },
+  {
+    "title": "The Crown",
+    "originalTitle": "The Crown",
+    "networks": ["Netflix"],
+    "runtime": 58,
+    "year": 2016,
+    "country": "UK"
+  },
+  {
+    "title": "The Boys",
+    "originalTitle": "The Boys",
+    "networks": ["Netflix"],
+    "runtime": 45,
+    "year": 2019,
+    "country": "USA"
+  },
+  {
+    "title": "Westworld",
+    "originalTitle": "Westworld",
+    "networks": ["HBO Max"],
+    "runtime": 64,
+    "year": 2016,
+    "country": "USA"
+  },
+  {
+    "title": "House of Cards",
+    "originalTitle": "House of Cards",
+    "networks": ["Netflix"],
+    "runtime": 50,
+    "year": 2013,
+    "country": "USA"
+  }
+]

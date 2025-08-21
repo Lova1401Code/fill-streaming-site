@@ -65,14 +65,14 @@ async function processStreamingData(item, resumeManager) {
     try {
         // Validation et nettoyage
         if (!validateStreamingItem(item)) {
-            return { success: false, skipped: false, item: item.name_film || 'Inconnu', error: 'Données invalides' };
+            return { success: false, skipped: false, item: item.title || 'Inconnu', error: 'Données invalides' };
         }
 
         const cleanItem = sanitizeStreamingItem(item);
         
         // Recherche dans la base
         const searchResult = await searchInDatabase(
-            cleanItem.name_film,
+            cleanItem.title,
             cleanItem.year,
             cleanItem.runtime
         );
@@ -82,7 +82,7 @@ async function processStreamingData(item, resumeManager) {
         }
 
         // Traitement des réseaux et pays
-        const networks = cleanItem.network;
+        const networks = cleanItem.networks;
         const country = cleanItem.country;
 
         let successCount = 0;
@@ -119,14 +119,14 @@ async function processStreamingData(item, resumeManager) {
         return {
             success: successCount > 0,
             skipped: false,
-            item: cleanItem.name_film,
+            item: cleanItem.title,
             successCount: successCount,
             errorCount: errorCount
         };
 
     } catch (error) {
-        logError(error, `Traitement de ${item.name_film || 'Inconnu'}`);
-        return { success: false, skipped: false, item: item.name_film || 'Inconnu', error: error.message };
+        logError(error, `Traitement de ${item.title || 'Inconnu'}`);
+        return { success: false, skipped: false, item: item.title || 'Inconnu', error: error.message };
     }
 }
 

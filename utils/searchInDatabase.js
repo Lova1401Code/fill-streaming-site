@@ -1,12 +1,22 @@
 import { prisma } from "../prisma/client.js";
 
-export default async function searchInDatabase(originalTitle, year, runtime) {
+export default async function searchInDatabase(title, year, runtime) {
     try {
+        // Recherche d'abord par title, puis par originalTitle si aucune correspondance
         const movie = await prisma.movie.findFirst({
             where: {
-                originalTitle: originalTitle,
-                releaseYear: parseInt(year),
-                runtime: parseInt(runtime),
+                OR: [
+                    {
+                        title: title,
+                        releaseYear: parseInt(year),
+                        runtime: parseInt(runtime),
+                    },
+                    {
+                        originalTitle: title,
+                        releaseYear: parseInt(year),
+                        runtime: parseInt(runtime),
+                    }
+                ]
             },
             select: {
                 id: true,
@@ -15,9 +25,17 @@ export default async function searchInDatabase(originalTitle, year, runtime) {
         });
         const serie = await prisma.serieOptimised.findFirst({
             where: {
-                name: originalTitle, // Utilise 'name' au lieu de 'originalTitle' pour les séries
-                titleYear: parseInt(year),
-                // Note: runtime est un objet JSON pour les séries, on ne peut pas le comparer directement
+                OR: [
+                    {
+                        name: title, // Utilise 'name' pour les séries
+                        titleYear: parseInt(year),
+                        // Note: runtime est un objet JSON pour les séries, on ne peut pas le comparer directement
+                    },
+                    {
+                        worldWideName: title,
+                        titleYear: parseInt(year),
+                    }
+                ]
             },
             select: {
                 id: true,
