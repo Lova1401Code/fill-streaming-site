@@ -116,7 +116,7 @@ model Movie {
   cdnFolderName String?
   languagesDownloaded    LanguageSequence[] @relation("MovieLanguagesDownloaded", map: "MovieLanguageSequence")
   subtitlesAvailable     LanguageSequence[] @relation("MovieSubtitlesAvailable", map: "MovieSubtitleSequence")
- 
+  streamingSites StreamingSite[]
 
   WatchHistory WatchHistory[] @relation(map: "watch_history_movie")
   myListItems MyListItem[] @relation("MovieMyList")
@@ -246,6 +246,7 @@ model SerieOptimised {
 
   Activity Activity[]
   likes Like[]
+  streamingSites StreamingSite[]
 
   tmdbId                 Int?
 }
@@ -307,6 +308,22 @@ model Series {
   subtitlesAvailable  LanguageSequence[]  @relation("SeriesSubtitlesAvailable", map: "SeriesSubtitleSequence")
 
   tmdbId                 Int?
+  streamingSites StreamingSite[]
+}
+
+model StreamingSite {
+  id Int @id @default(autoincrement())
+  network String?
+  country String?
+  movieId   Int? 
+  serieId   String?
+  serieOptimisedId String?
+
+  movie     Movie? @relation(fields: [movieId], references: [id])
+  serie     Series? @relation(fields: [serieId], references: [id])
+  serieOptimised SerieOptimised? @relation(fields: [serieOptimisedId], references: [id])
+
+  // Pas de contrainte unique pour permettre les doubles relations
 }
 
 model BoxOffice {
